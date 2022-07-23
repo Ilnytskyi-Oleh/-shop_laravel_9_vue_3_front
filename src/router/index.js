@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -9,11 +10,13 @@ const router = createRouter({
       component: () => import('../views/main/Index.vue')
     },
     {
-      path: '/products',
-      name: 'Products',
+      path: '/product',
+      name: 'Product',
       component: () => import('../views/product/Index.vue')
-    },
+    }
   ]
 })
+
+
 
 export default router
