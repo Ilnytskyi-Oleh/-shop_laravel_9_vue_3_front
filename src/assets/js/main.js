@@ -1,5 +1,7 @@
 jQuery(function ($) {
   'use strict';
+  $(document).ready(function (){
+
 
   /****======  Sticky Header ======*******/
   var scrollPosition = window.scrollY;
@@ -1011,5 +1013,5 @@ jQuery(function ($) {
       $(".loader").css("display", "none");
     });
   });
-
+  })
 }(jQuery));
