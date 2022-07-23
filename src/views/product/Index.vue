@@ -1,12 +1,15 @@
 <template>
   <div>
-    Home View
+    Product
   </div>
 </template>
 
 <script>
 export default {
-  name: "HomeView"
+  name: "Index",
+  mounted() {
+    $(document).trigger('change')
+  }
 }
 </script>
 
