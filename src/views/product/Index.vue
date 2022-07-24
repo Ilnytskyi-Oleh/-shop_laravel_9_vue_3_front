@@ -221,7 +221,7 @@
                         <div class="products-three-single w-100  mt-30">
                           <div class="products-three-single-img"> <a
                               href="shop-details-3.html" class="d-block"> <img
-                              :src=" product.image_url"
+                              :src="product?.images[0]?.url ?? '#'"
                               class="first-img" alt="" /> <img
                               src="src/assets/images/home-three/productss2-hover-1.png"
                               alt="" class="hover-img" />
@@ -239,7 +239,7 @@
                                     class="flaticon-left-and-right-arrows"></i>
                                   <span>
                                                                             compare</span> </a> </li>
-<!--                                qwqwqw-->
+
                                 <li><a @click="getProduct(product.id)" :href="`#popup${product.id}`" class="popup_link"> <i
                                     class="flaticon-visibility"></i>
                                   <span> quick view</span>
@@ -255,45 +255,24 @@
                                     <div class="tabs">
                                       <div class="popup-product-thumb-box">
                                         <ul>
-                                          <li
+                                          <li v-for="popupImage in popupProduct.images"
                                               class="tab-nav popup-product-thumb">
-                                            <a href="#tabb1">
-                                              <img :src="popupProduct.image_url"
-                                                   alt="" /> </a> </li>
-                                          <li
-                                              class="tab-nav popup-product-thumb ">
-                                            <a href="#tabb2">
-                                              <img src="src/assets/images/shop/products-v6-img6.jpg"
-                                                   alt="" /> </a> </li>
-                                          <li
-                                              class="tab-nav popup-product-thumb ">
-                                            <a href="#tabb3">
-                                              <img src="src/assets/images/shop/products-v6-img7.jpg"
-                                                   alt="" /> </a> </li>
+                                            <a :href="`#tabb${popupImage.id}`">
+                                              <img :src="popupImage.url"
+                                                   alt="" /> </a>
+                                          </li>
                                         </ul>
                                       </div>
                                       <div class="popup-product-main-image-box">
-                                        <div id="tabb1"
+                                        <div v-for="popupImage in popupProduct.images" :id="`tabb${popupImage.id}`"
                                              class="tab-item popup-product-image">
                                           <div
                                               class="popup-product-single-image">
-                                            <img :src="popupProduct.image_url"
+                                            <img :src="popupImage.url"
                                                  alt="" /> </div>
                                         </div>
-                                        <div id="tabb2"
-                                             class="tab-item popup-product-image">
-                                          <div
-                                              class="popup-product-single-image">
-                                            <img src="src/assets/images/shop/products-v6-img6.jpg"
-                                                 alt="" /> </div>
-                                        </div>
-                                        <div id="tabb3"
-                                             class="tab-item popup-product-image">
-                                          <div
-                                              class="popup-product-single-image">
-                                            <img src="src/assets/images/shop/products-v6-img7.jpg"
-                                                 alt="" /> </div>
-                                        </div> <button class="prev"> <i
+
+                                        <button class="prev"> <i
                                           class="flaticon-back"></i>
                                       </button> <button class="next"> <i
                                           class="flaticon-next"></i>
@@ -2120,7 +2099,6 @@ export default {
   mounted() {
     $(document).trigger('change');
     this.getProducts();
-    this.getProduct();
   },
   data(){
     return {
@@ -2133,6 +2111,7 @@ export default {
       this.axios.get('http://localhost/api/products/')
           .then(res => {
             this.products = res.data.data
+
           })
           .finally( v => {
             $(document).trigger('change');
