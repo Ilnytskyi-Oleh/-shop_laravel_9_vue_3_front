@@ -271,12 +271,12 @@
                                             <img :src="popupImage.url"
                                                  alt="" /> </div>
                                         </div>
-
                                         <button class="prev"> <i
                                           class="flaticon-back"></i>
-                                      </button> <button class="next"> <i
+                                        </button>
+                                        <button class="next"> <i
                                           class="flaticon-next"></i>
-                                      </button>
+                                        </button>
                                       </div>
                                     </div>
                                   </div>
@@ -303,7 +303,7 @@
                                       </template>
                                     </div>
                                     <div class="add-product">
-                                      <h6>Qty:</h6>
+                                      <h6>Qty: </h6>
                                       <div class="button-group">
                                         <div class="qtySelector text-center">
                                                                                     <span class="decreaseQty"><i
@@ -333,6 +333,7 @@
                               </div>
                             </div>
                           </div>
+
                           <div class="products-three-single-content text-center"> <span>{{ product.category.title}}</span>
                             <h5><a href="shop-details-3.html"> {{ product.title}} </a>
                             </h5>
@@ -2124,6 +2125,9 @@ export default {
           })
           .finally( v => {
             $(document).trigger('change');
+            $('.mfp-close').click(() => {
+              this.popupProduct = null
+            })
           })
     }
   }
