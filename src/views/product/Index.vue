@@ -2119,15 +2119,14 @@ export default {
           })
     },
     getProduct(id = 1){
+      this.popupProduct = null
       this.axios.get(`http://localhost/api/products/${id}`)
           .then(res => {
             this.popupProduct = res.data.data
           })
           .finally( v => {
             $(document).trigger('change');
-            $('.mfp-close').click(() => {
-              this.popupProduct = null
-            })
+
           })
     }
   }
