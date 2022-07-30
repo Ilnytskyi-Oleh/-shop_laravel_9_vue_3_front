@@ -316,7 +316,7 @@
 export default {
   name: 'App',
   mounted() {
-    $(document).trigger('init');
+    $(document).trigger('changed');
   }
 }
 </script>
