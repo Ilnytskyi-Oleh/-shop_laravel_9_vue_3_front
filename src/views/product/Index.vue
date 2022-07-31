@@ -152,14 +152,12 @@
                       class="right-box justify-content-md-between justify-content-center wow fadeInUp animated">
                     <div class="short-by">
                       <div class="select-box">
-                        <select class="wide">
-                          <option data-display="Short by latest">Featured </option>
-                          <option value="1">Best selling </option>
-                          <option value="2">Alphabetically, A-Z</option>
-                          <option value="3">Alphabetically, Z-A</option>
+                        <select id="sortEl" class="wide">
+                          <option value="" data-display="Сортувати">Не сортувати </option>
+                          <option value="title_asc">Alphabetically, A-Z</option>
+                          <option value="title_desc">Alphabetically, Z-A</option>
                           <option value="3">Price, low to high</option>
-                          <option value="3">Price, high to low</option>
-                          <option value="3">Date, old to new</option>
+                          <option value="6">Price, high to low</option>
                         </select>
                       </div>
                     </div>
@@ -2076,6 +2074,32 @@ export default {
     $(document).trigger('changed');
     this.getFilterList();
     this.getProducts();
+    $('select').change(()=>{
+      let selected = $('#sortEl').next().find('span').text();
+      switch (selected){
+        case 'Alphabetically, A-Z':
+          this.orderBy = {}
+          this.orderBy.title = 'ASC';
+          this.getProducts();
+          break;
+        case 'Alphabetically, Z-A':
+          this.orderBy = {}
+          this.orderBy.title = 'DESC';
+          this.getProducts();
+          break;
+        case 'Price, low to high':
+          this.orderBy = {}
+          this.orderBy.price = 'ASC';
+          this.getProducts();
+          break;
+        case 'Price, high to low':
+          this.orderBy = {}
+          this.orderBy.price = 'DESC';
+          this.getProducts();
+          break;
+      }
+
+    })
   },
   data(){
     return {
@@ -2086,23 +2110,13 @@ export default {
       colors:[],
       tags:[],
       price:{},
+      orderBy:{},
     }
   },
   methods:{
     getProductList(){
-      let prices = $('#priceRange').val().replace(/[\s+]|[$]/g, '').split('-');
-      this.axios.post('http://localhost/api/products/', {
-            'categories': this.categories,
-            'colors': this.colors,
-            'tags': this.tags,
-            'price': prices,
-          })
-          .then(res => {
-            this.products = res.data.data
-          })
-          .finally( v => {
-            $(document).trigger('changed');
-          })
+      this.prices = $('#priceRange').val().replace(/[\s+]|[$]/g, '').split('-');
+      this.getProducts()
     },
     updateColorFilter(id){
       if(!this.colors.includes(id)){
@@ -2123,7 +2137,13 @@ export default {
       }
     },
     getProducts(){
-      this.axios.post('http://localhost/api/products/',{})
+      this.axios.post('http://localhost/api/products/',{
+        'categories': this.categories,
+        'colors': this.colors,
+        'tags': this.tags,
+        'price': this.prices,
+        'orderBy': this.orderBy
+      })
           .then(res => {
             this.products = res.data.data
           })
