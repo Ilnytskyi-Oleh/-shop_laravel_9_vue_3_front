@@ -192,13 +192,13 @@
                     <div class="row">
                       <div v-for="product in products" class="col-xl-4 col-lg-6 col-6 ">
                         <div class="products-three-single w-100  mt-30">
-                          <div class="products-three-single-img"> <a
-                              href="shop-details-3.html" class="d-block"> <img
+                          <div class="products-three-single-img"> <router-link
+                              :to="{name:'Product.Show', params: {id:product.id}}" class="d-block"> <img
                               :src="product?.images[0]?.url ?? '#'"
                               class="first-img" alt="" /> <img
                               src="src/assets/images/home-three/productss2-hover-1.png"
                               alt="" class="hover-img" />
-                          </a>
+                          </router-link>
                             <div class="products-grid-one__badge-box"> <span
                                 class="bg_base badge new ">New</span>
                             </div> <a href="cart.html" class="addcart btn--primary style2">
