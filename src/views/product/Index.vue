@@ -201,7 +201,7 @@
                           </router-link>
                             <div class="products-grid-one__badge-box"> <span
                                 class="bg_base badge new ">New</span>
-                            </div> <a href="cart.html" class="addcart btn--primary style2">
+                            </div> <a @click.prevent = "addToCart(product.id, true)" href="#" class="addcart btn--primary style2">
                               Add To Cart </a>
                             <div class="products-grid__usefull-links">
                               <ul>
@@ -286,7 +286,7 @@
                                           <span class="increaseQty"> <i
                                               class="flaticon-plus"></i>
                                                                                     </span> </div>
-                                        <button class="btn--primary "> Add to
+                                        <button @click.prevent="addToCart(popupProduct.id)" class="btn--primary "> Add to
                                           Cart </button>
                                       </div>
                                     </div>
@@ -2130,6 +2130,35 @@ export default {
     }
   },
   methods:{
+    addToCart(id, isSingle = false){
+
+      isSingle ? $('.qtyValue').val(1) : false
+
+      let cart = localStorage.getItem('cart');
+      let qty = $('.qtyValue').val() ? $('.qtyValue').val() : 1
+      $('.qtyValue').val(1)
+
+
+      let newProduct = [{
+        'id':id,
+        'qty':qty
+      }]
+
+      if (!cart){
+        localStorage.setItem('cart', JSON.stringify(newProduct))
+      } else {
+        cart = JSON.parse(cart)
+
+        cart.forEach( productInCart => {
+          if(productInCart.id === id) {
+            productInCart.qty = Number(productInCart.qty) + Number(qty)
+            newProduct = []
+          }
+        })
+        localStorage.setItem('cart', JSON.stringify([...cart, ...newProduct]))
+      }
+
+    },
     getProductList(){
       this.prices = $('#priceRange').val().replace(/[\s+]|[$]/g, '').split('-');
       this.getProducts()
@@ -2163,7 +2192,6 @@ export default {
       })
           .then(res => {
             this.products = res.data.data
-            console.log(res.data.meta)
             this.pagination = res.data.meta
           })
           .finally( v => {
